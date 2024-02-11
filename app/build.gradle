@@ -1,10 +1,17 @@
 plugins {
     id 'com.android.application'
+    id 'com.chaquo.python'
 }
 
 android {
     namespace 'com.example.sentimentanalyzer'
     compileSdk 34
+
+    flavorDimensions "pyVersion"
+    productFlavors {
+        create("py38") { dimension = "pyVersion" }
+//        create("py311") { dimension = "pyVersion" }
+    }
 
     defaultConfig {
         applicationId "com.example.sentimentanalyzer"
@@ -14,6 +21,10 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        ndk {
+            abiFilters "arm64-v8a"
+        }
     }
 
     buildTypes {
@@ -41,4 +52,42 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+}
+
+chaquopy {
+    defaultConfig {
+
+        pip {
+
+            install("pandas")
+
+            install("numpy")
+            // A requirement specifier, with or without a version number:
+            install("scipy")
+
+//            install("https://storage.googleapis.com/tensorflow/mac/cpu/tensorflow-1.8.0-py3-none-any.whl")
+
+            install("tensorflow")
+
+            install("torch")
+
+            install("safetensors")
+
+            install("nltk")
+
+            install("tqdm")
+
+//            install("tokenizers==0.15")
+//
+//            install("transformers")
+
+
+        }
+    }
+    productFlavors { }
+    sourceSets { }
+
+    productFlavors {
+        getByName("py38") { version = "3.8" }
+    }
 }

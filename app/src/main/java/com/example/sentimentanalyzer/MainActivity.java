@@ -1,27 +1,31 @@
 package com.example.sentimentanalyzer;
 
 import android.os.Bundle;
-
-import com.google.android.material.snackbar.Snackbar;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.view.View;
-
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.chaquo.python.PyObject;
+import com.chaquo.python.Python;
+import com.chaquo.python.android.AndroidPlatform;
 import com.example.sentimentanalyzer.databinding.ActivityMainBinding;
+import com.google.android.material.textfield.TextInputEditText;
 
-import android.view.Menu;
-import android.view.MenuItem;
+import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
+
+    TextInputEditText textInputEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +40,28 @@ public class MainActivity extends AppCompatActivity {
         appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
 
+        textInputEditText = (TextInputEditText) findViewById(R.id.input_text);
+
     }
+
+    public void analyzeText(View view) throws IOException {
+        if (! Python.isStarted()) {
+            Python.start(new AndroidPlatform(this));
+        }
+
+        // create python instance
+        Python py = Python.getInstance();
+        PyObject pyObject = py.getModule("hello");
+        PyObject obj = pyObject.callAttr("main", textInputEditText.getText().toString());
+
+        TextView textViewer2 = (TextView) findViewById(R.id.textView3);
+        textViewer2.setText(obj.toString());
+
+        System.out.println(obj.toString());
+
+    }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
