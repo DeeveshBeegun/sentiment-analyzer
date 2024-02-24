@@ -1,10 +1,11 @@
 package com.example.sentimentanalyzer;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
@@ -12,13 +13,23 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import com.chaquo.python.PyObject;
-import com.chaquo.python.Python;
-import com.chaquo.python.android.AndroidPlatform;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.sentimentanalyzer.databinding.ActivityMainBinding;
 import com.google.android.material.textfield.TextInputEditText;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -26,6 +37,9 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
 
     TextInputEditText textInputEditText;
+
+    String mlpApi = "https://machine-learning-playground-api.onrender.com/analyse";
+    //String mlpApi = "http://10.0.2.2:5000/analyse";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,19 +59,37 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void analyzeText(View view) throws IOException {
-        if (! Python.isStarted()) {
-            Python.start(new AndroidPlatform(this));
-        }
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
 
-        // create python instance
-        Python py = Python.getInstance();
-        PyObject pyObject = py.getModule("hello");
-        PyObject obj = pyObject.callAttr("main", textInputEditText.getText().toString());
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, mlpApi, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Toast.makeText(MainActivity.this, "Data added to api", Toast.LENGTH_SHORT).show();
+                try {
+                    JSONObject respObj = new JSONObject(response);
 
-        TextView textViewer2 = (TextView) findViewById(R.id.textView3);
-        textViewer2.setText(obj.toString());
+                    System.out.println(respObj);
 
-        System.out.println(obj.toString());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(MainActivity.this, "Fail to get response = " + error, Toast.LENGTH_SHORT).show();
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+
+                params.put("text", "i am so happy");
+
+                return params;
+            }
+        };
+        requestQueue.add(stringRequest);
 
     }
 
