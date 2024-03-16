@@ -18,14 +18,20 @@ public class HomeFragment extends Fragment {
 
         Button sentimentAnalysisButton = (Button) view.findViewById(R.id.button1);
         Button summarizerButton = (Button) view.findViewById(R.id.button2);
+        Button duplicateButton = (Button) view.findViewById(R.id.button3);
 
         sentimentAnalysisButton.setOnClickListener(view1 -> {
             var fragment = new SentimentAnalysisFragment();
             replaceFragment(fragment);
         });
 
-        summarizerButton.setOnClickListener(view2 -> {
-            var fragment = new SummarizerFragment();
+//        summarizerButton.setOnClickListener(view2 -> {
+//            var fragment = new SummarizerFragment();
+//            replaceFragment(fragment);
+//        });
+
+        duplicateButton.setOnClickListener(view2 -> {
+            var fragment = new DuplicateFragment();
             replaceFragment(fragment);
         });
 

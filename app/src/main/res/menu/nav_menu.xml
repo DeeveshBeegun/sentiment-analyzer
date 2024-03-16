@@ -9,6 +9,11 @@
             android:icon="@drawable/ic_baseline_home_24"
             android:title="@string/home"/>
 
+        <item
+            android:id="@+id/nav_share"
+            android:icon="@drawable/ic_baseline_share_24"
+            android:title="@string/share"/>
+
 
     </group>
 
