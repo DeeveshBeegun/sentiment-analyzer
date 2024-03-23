@@ -113,4 +113,7 @@
     <string name="duplicate">Duplicate</string>
     <string name="share">Share</string>
     <string name="translate">Translate</string>
+    <string name="rate_us">Rate Us</string>
+    <string name="sentiment_analysis_results">Sentiment Analysis Results:</string>
+    <string name="duplicate_results">Duplicate Results:</string>
 </resources>

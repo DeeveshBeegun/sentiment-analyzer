@@ -1,4 +1,7 @@
-//package com.example.sentimentanalyzer;
+package com.example.sentimentanalyzer;
+
+import androidx.fragment.app.Fragment;
+
 //
 //import android.os.Bundle;
 //
@@ -12,7 +15,7 @@
 //
 //import com.example.sentimentanalyzer.resultFragment.SummarizerFragmentResult;
 //
-//public class SummarizerFragment extends Fragment {
+public class SummarizerFragment extends Fragment {
 //
 //    @Override
 //    public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -36,4 +39,4 @@
 //        transaction.addToBackStack(null);
 //        transaction.commit();
 //    }
-//}
+}

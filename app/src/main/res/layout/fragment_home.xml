@@ -37,6 +37,7 @@
                     app:backgroundTint="@android:color/transparent"
                     app:cornerRadius="8dp"
                     app:rippleColor="#33AAAAAA"
+                    android:stateListAnimator="@null"
                     app:strokeColor="#575757"
                     android:padding="20dp"
                     android:textAllCaps="false"
@@ -72,6 +73,7 @@
                     app:rippleColor="#33AAAAAA"
                     app:strokeColor="#575757"
                     android:padding="20dp"
+                    android:stateListAnimator="@null"
                     app:strokeWidth="5dp" />
 
                 <ImageView
@@ -124,6 +126,7 @@
                     app:backgroundTint="@android:color/transparent"
                     app:cornerRadius="8dp"
                     app:rippleColor="#33AAAAAA"
+                    android:stateListAnimator="@null"
                     app:strokeColor="#575757"
                     android:padding="20dp"
                     android:textAllCaps="false"
@@ -162,6 +165,7 @@
                     android:layout_height="150dp"
                     android:gravity="bottom|center"
                     android:text="Translate"
+                    android:stateListAnimator="@null"
                     android:textAllCaps="false"
                     android:textStyle="bold"
                     android:fontFamily="sans-serif"
@@ -177,9 +181,10 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="74dp"
-                    android:paddingTop="10dp"
+                    android:layout_centerInParent="true"
                     android:layout_marginTop="20dp"
                     android:padding="10dp"
+                    android:paddingTop="10dp"
                     android:src="@drawable/ic_baseline_translate_24" />
             </RelativeLayout>
         </TableRow>

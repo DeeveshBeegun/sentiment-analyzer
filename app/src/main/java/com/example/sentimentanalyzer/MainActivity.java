@@ -1,13 +1,17 @@
 package com.example.sentimentanalyzer;
 
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
+
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -45,14 +49,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
 
-    private ProgressBar progressBar_compound;
-    private ProgressBar progressBar_neg;
-    private ProgressBar progressBar_neu;
-    private ProgressBar progressBar_pos;
 
-    TextInputLayout textInputLayout;
+    private Button share;
 
-    String mlpApi = "https://machine-learning-playground-api.onrender.com/analyse";
+
+
     //String mlpApi = "http://10.0.2.2:5000/analyse";
 
     @Override
@@ -71,6 +72,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // textInputLayout = (TextInputLayout)findViewById(R.id.textInputLayout);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle("Text Toolkit");
 
         setSupportActionBar(toolbar);
         drawerLayout = findViewById(R.id.drawer_layout);
@@ -87,7 +89,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     .commit();
             navigationView.setCheckedItem(R.id.nav_home);
 
+
         }
+
+
 //
 //        Intent intent = new Intent(this, HomeActvity.class);
 //
@@ -110,6 +115,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new HomeFragment()).commit();
                 break;
+            case R.id.nav_share:
+                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                shareIntent.setType("text");// You Can set source type here like video, image text, etc.
+                //shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse(fileUrl);
+                shareIntent.setFlags(FLAG_ACTIVITY_NEW_TASK);
+                startActivity(Intent.createChooser(shareIntent, "Share File Using!"));
+                break;
 
         }
         drawerLayout.closeDrawer(GravityCompat.START);
@@ -126,70 +138,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-
-
-//    public void displayProgressBar(int per_compound, int per_neg, int per_neu, int per_pos) {
-//        progressBar_compound = (ProgressBar) findViewById(R.id.progressBar_compound);
-//        if(per_compound < 0) {
-//            per_compound = per_compound * -1;
-//            progressBar_compound.getProgressDrawable().setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
-//            progressBar_compound.setProgress(per_compound);
-//        }
-//        else {
-//            progressBar_compound.getProgressDrawable().setColorFilter(Color.BLUE, PorterDuff.Mode.SRC_IN);
-//            progressBar_compound.setProgress(per_compound);
-//        }
-//
-//        progressBar_neu = (ProgressBar) findViewById(R.id.progressBar_neu);
-//        progressBar_neu.setProgress(per_neu);
-//
-//        progressBar_neg = (ProgressBar) findViewById(R.id.progressBar_neg);
-//        progressBar_neg.setProgress(per_neg);
-//        progressBar_neg.getProgressDrawable().setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
-//
-//        progressBar_pos = (ProgressBar) findViewById(R.id.progressBar_pos);
-//        progressBar_pos.setProgress(per_pos);
-//    }
-
-//    public void analyzeText(View view) throws IOException {
-//        RequestQueue requestQueue = Volley.newRequestQueue(this);
-//
-//        StringRequest stringRequest = new StringRequest(Request.Method.POST, mlpApi, new Response.Listener<String>() {
-//            @Override
-//            public void onResponse(String response) {
-//                Toast.makeText(MainActivity.this, "Data added to api", Toast.LENGTH_SHORT).show();
-//                try {
-//                    JSONObject respObj = new JSONObject(response);
-//
-//                    System.out.println(respObj);
-//
-//                    displayProgressBar((int)Double.parseDouble(respObj.getString("compound")),
-//                            (int)Double.parseDouble(respObj.getString("neg")),
-//                            (int)Double.parseDouble(respObj.getString("neu")),
-//                            (int)Double.parseDouble(respObj.getString("pos")));
-//
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//                Toast.makeText(MainActivity.this, "Fail to get response = " + error, Toast.LENGTH_SHORT).show();
-//            }
-//        }) {
-//            @Override
-//            protected Map<String, String> getParams() {
-//                Map<String, String> params = new HashMap<String, String>();
-//
-//                params.put("text", textInputLayout.getEditText().getText().toString());
-//
-//                return params;
-//            }
-//        };
-//        requestQueue.add(stringRequest);
-//
-//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

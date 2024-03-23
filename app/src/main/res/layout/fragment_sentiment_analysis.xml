@@ -1,20 +1,233 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SentimentAnalysisFragment">
+    tools:context=".DuplicateFragment"
+    android:background="#FAF9F6">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-        <Button
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/user_input"
+            android:layout_margin="10dp">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/sentiment_analysis_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:maxHeight="200dp"
+
+                        android:hint="Input Text" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+                <Button
+                    android:id="@+id/analyse"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/sentiment_analysis_input"
+                    android:layout_centerInParent="true"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:backgroundTint="#eb593c"
+                    android:text="Analyse" />
+
+
+            </RelativeLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/duplicate_result"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Analyze"/>
+            android:text="@string/sentiment_analysis_results"
+            android:padding="10dp"
+            android:layout_below="@id/user_input"
+            android:textSize="20sp"
+            />
 
-    </LinearLayout>
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/duplicate_result"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp">
 
-</RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="30dp">
+
+
+<!--                <com.google.android.material.progressindicator.CircularProgressIndicator-->
+<!--                    android:id="@+id/progressBar_buffer"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    app:indicatorColor="#eb593c"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:layout_centerInParent="true" />-->
+
+                <TextView
+                    android:id="@+id/compound_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Overall:"
+                    />
+
+<!--                <ProgressBar-->
+<!--                    android:id="@+id/progressBar_compound"-->
+<!--                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_below="@id/compound_text" />-->
+
+                <com.google.android.material.progressindicator.LinearProgressIndicator
+                    android:id="@+id/progressBar_compound"
+                    android:layout_width="match_parent"
+                    app:indicatorColor="#808080"
+                    android:layout_height="match_parent"
+                    android:layout_below="@id/compound_text"
+                    app:trackCornerRadius="5dp"
+                    app:trackThickness="10dp" />
+
+                <TextView
+                    android:id="@+id/per_overall_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/compound_text"
+                    android:text="0%"
+                    android:paddingLeft="5dp"/>
+
+                <TextView
+                    android:id="@+id/neg_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Negative:"
+                    android:paddingTop="10dp"
+                    android:layout_below="@id/progressBar_compound"
+                    />
+
+                <TextView
+                    android:id="@+id/per_neg_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@id/neg_text"
+                    android:layout_below="@id/progressBar_compound"
+                    android:paddingTop="10dp"
+                    android:text="0%"
+                    android:paddingLeft="5dp"/>
+
+<!--                <ProgressBar-->
+<!--                    android:id="@+id/progressBar_neg"-->
+<!--                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_below="@id/neg_text"/>-->
+
+                <com.google.android.material.progressindicator.LinearProgressIndicator
+                    android:id="@+id/progressBar_neg"
+                    android:layout_width="match_parent"
+                    app:indicatorColor="#808080"
+                    android:layout_height="match_parent"
+                    android:layout_below="@id/neg_text"
+                    app:trackCornerRadius="5dp"
+                    app:trackThickness="10dp" />
+
+                <TextView
+                    android:id="@+id/neu_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Neutral:"
+                    android:paddingTop="10dp"
+                    android:layout_below="@id/progressBar_neg"
+                    />
+
+                <TextView
+                    android:id="@+id/per_neu_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@id/neu_text"
+                    android:layout_below="@id/progressBar_neg"
+                    android:text="0%"
+                    android:paddingTop="10dp"
+                    android:paddingLeft="5dp"/>
+
+<!--                <ProgressBar-->
+<!--                    android:id="@+id/progressBar_neu"-->
+<!--                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_below="@id/neu_text"/>-->
+
+                <com.google.android.material.progressindicator.LinearProgressIndicator
+                    android:id="@+id/progressBar_neu"
+                    android:layout_width="match_parent"
+                    app:indicatorColor="#808080"
+                    android:layout_height="match_parent"
+                    android:layout_below="@id/neu_text"
+                    app:trackCornerRadius="5dp"
+                    app:trackThickness="10dp" />
+
+                <TextView
+                    android:id="@+id/pos_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Positive:"
+                    android:paddingTop="10dp"
+                    android:layout_below="@id/progressBar_neu"
+                    />
+
+
+                <TextView
+                    android:id="@+id/per_pos_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@id/pos_text"
+                    android:layout_below="@id/progressBar_neu"
+                    android:text="0%"
+                    android:paddingTop="10dp"
+                    android:paddingLeft="5dp"/>
+
+<!--                <ProgressBar-->
+<!--                    android:id="@+id/progressBar_pos"-->
+<!--                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_below="@id/pos_text"/>-->
+                <com.google.android.material.progressindicator.LinearProgressIndicator
+                    android:id="@+id/progressBar_pos"
+                    android:layout_width="match_parent"
+                    app:indicatorColor="#808080"
+                    android:layout_height="match_parent"
+                    android:layout_below="@id/pos_text"
+                    app:trackCornerRadius="5dp"
+                    app:trackThickness="10dp" />
+
+            </RelativeLayout>
+
+
+        </androidx.cardview.widget.CardView>
+
+
+    </RelativeLayout>
+
+</ScrollView>

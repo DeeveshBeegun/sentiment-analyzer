@@ -1,84 +1,71 @@
 package com.example.sentimentanalyzer;
 
-import android.app.Activity;
+import static com.example.sentimentanalyzer.url.UrlConstant.DUPLICATE_API;
+
 import android.content.Context;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.textfield.TextInputLayout;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class DuplicateFragment extends Fragment {
-
-    TextInputLayout textInputLayout;
     Context context;
-
-
-    String mlpApi = "https://machine-learning-playground-api.onrender.com/duplicate";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         context = container.getContext();
-
         View view = inflater.inflate(R.layout.fragment_duplicate, container, false);
-
         Button duplicateButton = (Button) view.findViewById(R.id.duplicate);
 
         duplicateButton.setOnClickListener(view1 -> {
-            duplicate();
+            duplicate(view);
         });
 
         return view;
-
-
     }
 
+    public void duplicate(View view) {
+        TextInputLayout textDuplicateInput = (TextInputLayout) view.findViewById(R.id.duplicate_input);
+        EditText textDuplicateInputTimes = (EditText) view.findViewById(R.id.editText1);
 
-    public void duplicate() {
         RequestQueue requestQueue = Volley.newRequestQueue(context);
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, mlpApi, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                System.out.println(response);
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                System.out.println("Error getting response");
-            }
-        }) {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, DUPLICATE_API,
+                response -> {
+                    setDuplicates(view, response);
+                },
+                error -> Toast.makeText(context, "An error occurred", Toast.LENGTH_SHORT).show())  {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
-
-                params.put("text", "I am so happy");
-                params.put("times", "3");
+                params.put("text", textDuplicateInput.getEditText().getText().toString());
+                params.put("times", textDuplicateInputTimes.getText().toString());
 
                 return params;
             }
         };
         requestQueue.add(stringRequest);
+    }
+
+    public void setDuplicates(View view, String text) {
+        TextView textViewDuplicate = view.findViewById(R.id.duplicate_results_view);
+        textViewDuplicate.setText(text);
     }
 
 
