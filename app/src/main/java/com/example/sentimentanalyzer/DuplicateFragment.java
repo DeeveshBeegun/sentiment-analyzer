@@ -3,6 +3,7 @@ package com.example.sentimentanalyzer;
 import static com.example.sentimentanalyzer.url.UrlConstant.DUPLICATE_API;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,6 +39,18 @@ public class DuplicateFragment extends Fragment {
             duplicate(view);
         });
 
+        Button copyButton = (Button) view.findViewById(R.id.copy_button);
+
+        copyButton.setOnClickListener(view1 -> {
+            copyContent(context);
+        });
+
+        Button shareButton = (Button) view.findViewById(R.id.share_button);
+
+        shareButton.setOnClickListener(view1 -> {
+            shareContent();
+        });
+
         return view;
     }
 
@@ -63,9 +76,30 @@ public class DuplicateFragment extends Fragment {
         requestQueue.add(stringRequest);
     }
 
+
+
     public void setDuplicates(View view, String text) {
         TextView textViewDuplicate = view.findViewById(R.id.duplicate_results_view);
         textViewDuplicate.setText(text);
+    }
+
+    public void copyContent(Context context) {
+        TextView textView = (TextView) getView().findViewById(R.id.duplicate_results_view);
+
+        android.content.ClipboardManager clipboard = (android.content.ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+        android.content.ClipData clip = android.content.ClipData.newPlainText("Copied Text", textView.getText().toString());
+        clipboard.setPrimaryClip(clip);
+    }
+
+    public void shareContent() {
+
+        TextView textView = (TextView) getView().findViewById(R.id.duplicate_results_view);
+
+        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+        sharingIntent.setType("text/plain");
+        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject Here");
+        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, textView.getText().toString());
+        startActivity(Intent.createChooser(sharingIntent, "Share via"));
     }
 
 

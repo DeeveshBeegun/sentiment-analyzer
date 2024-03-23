@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -114,13 +115,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_home:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new HomeFragment()).commit();
+
                 break;
             case R.id.nav_share:
-                Intent shareIntent = new Intent(Intent.ACTION_SEND);
-                shareIntent.setType("text");// You Can set source type here like video, image text, etc.
-                //shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse(fileUrl);
-                shareIntent.setFlags(FLAG_ACTIVITY_NEW_TASK);
-                startActivity(Intent.createChooser(shareIntent, "Share File Using!"));
+                Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+                sharingIntent.setType("text/plain");
+                sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject Here");
+                startActivity(Intent.createChooser(sharingIntent, "Share via"));
                 break;
 
         }
